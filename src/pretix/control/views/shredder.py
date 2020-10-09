@@ -1,6 +1,7 @@
 import logging
 from collections import OrderedDict
 
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -45,6 +46,7 @@ class ShredDownloadView(RecentAuthenticationRequiredMixin, EventPermissionRequir
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['shredders'] = self.shredders
+        ctx['download_on_shred'] = settings.DOWNLOAD_ON_SHRED
         ctx['file'] = get_object_or_404(CachedFile, pk=kwargs.get("file"))
         return ctx
 

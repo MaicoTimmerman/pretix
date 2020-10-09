@@ -730,3 +730,5 @@ OAUTH2_PROVIDER = {
 COUNTRIES_OVERRIDE = {
     'XK': _('Kosovo'),
 }
+
+DOWNLOAD_ON_SHRED = CONFIG_FILE.get('pretix', 'download_on_shred', fallback=True)

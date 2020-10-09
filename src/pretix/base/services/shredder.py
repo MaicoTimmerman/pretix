@@ -73,8 +73,9 @@ def shred(event: Event, fileid: str, confirm_code: str) -> None:
         indexdata = json.loads(zipfile.read('index.json').decode())
     if indexdata['organizer'] != event.organizer.slug or indexdata['event'] != event.slug:
         raise ShredError(_("This file is from a different event."))
-    if indexdata['confirm_code'] != confirm_code:
-        raise ShredError(_("The confirm code you entered was incorrect."))
+    if settings.DOWNLOAD_ON_SHRED:
+        if indexdata['confirm_code'] != confirm_code:
+            raise ShredError(_("The confirm code you entered was incorrect."))
     if event.logentry_set.filter(datetime__gte=parse(indexdata['time'])):
         raise ShredError(_("Something happened in your event after the export, please try again."))
 
